@@ -1,0 +1,21 @@
+{
+  "name": "unstrap",
+  "version": "1.0.0-2",
+  "description": "Like Bootstrap without jQuery.",
+  "main": "unstrap.js",
+  "homepage": "unstrap.org",
+  "contributors": [
+	{
+		"name": "steenk"
+	}
+  ],
+  "readmeFilename": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bootstrap"
+  ],
+  "author": "steenk",
+  "license": "MIT"
+}
