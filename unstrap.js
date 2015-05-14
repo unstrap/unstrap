@@ -21,7 +21,7 @@
     }
 
 	function extendUnstrap (v) {
-	    var list = $$$.queryAll(collection[v].selectors[0]);
+	    var list = document.querySelectorAll(collection[v].selectors[0]);
 	    for (var i = 0; i < list.length; i++) {
 	        collection[v].extend(list.item(i));
 	    }
