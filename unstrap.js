@@ -10,6 +10,16 @@
 	var version = '1.0.0',
 	    collection = {};
 
+	function onReady (func) {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            doNext(func);
+        } else if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', func, false);
+        } else {
+            document.attachEvent('onreadystatechange', func);
+        }
+    }
+
 	function extendUnstrap (v) {
 	    var list = $$$.queryAll(collection[v].selectors[0]);
 	    for (var i = 0; i < list.length; i++) {
@@ -17,7 +27,7 @@
 	    }
 	}
 
-	$$$.onReady(function () {
+	onReady(function () {
 	    var observer = new MutationObserver(function (mut) {
 	        mut.forEach(function (m) {
 	            var n = m.addedNodes,
