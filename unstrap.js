@@ -21,10 +21,14 @@
     }
 
 	function extendUnstrap (v) {
-	    var list = document.querySelectorAll(collection[v].selectors[0]);
-	    for (var i = 0; i < list.length; i++) {
-	        collection[v].extend(list.item(i));
-	    }
+	    var list;
+	    collection[v].selectors.forEach(function (sel) {
+	    	list = document.querySelectorAll(sel);
+	    	console.log(sel, list)
+	    	for (var i = 0; i < list.length; i++) {
+	        	collection[v].extend(list.item(i));
+	    	}
+		})
 	}
 
 	onReady(function () {
@@ -102,7 +106,7 @@
 		return {
 			version: '1.0.0',
 			name: 'dropdown',
-			selectors: ['.dropdown'],
+			selectors: ['.dropdown', '.dropup'],
 			extend: extend
 		}
 	});
