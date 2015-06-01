@@ -1,5 +1,5 @@
 /*
- * Unstrap: dropdown.js v1.0.0-1
+ * Unstrap: dropdown.js v1.0.0-2
  * http://unstrap.org/components/dropdown
  * 2015
  * MIT license
@@ -14,24 +14,28 @@ define(function () {
 
 	function extend (elem) {
 		var but = elem.querySelector('.dropdown-toggle');
+		if (!but) return;
 		Object.defineProperty(but, 'value', {
 			set: function (val) {
-				var li = but.nextSibling.querySelector('[data-value=' + val +']');
-				if (li) {
-					but._value = val;
-					but.textContent = li.textContent || val;
-					but.appendChild(caret());
+				var v, li = this.nextElementSibling.querySelectorAll('li');
+				for (var i = 0; i < li.length; i++) {
+					v = li.item(i).getAttribute('data-value') || li.item(i).textContent;
+					if (val === v) {
+						but._value = val;
+						but.textContent = li.textContent || val;
+						but.appendChild(caret());
+					}
 				}
 			},
 			get: function () {
 				 return but._value;
 			}
 		});
-		but.nextSibling.evt('click', function (evt) {
+		but.nextElementSibling.addEventListener('click', function (evt) {
 			but.value = evt.target.getAttribute('data-value') || evt.target.textContent;
 			evt.target.parentNode.parentNode.parentNode.classList.remove('open');
 		})
-		but.evt('click', function (evt) {
+		but.addEventListener('click', function (evt) {
 			var dd = evt.target.parentNode;
 			dd.classList.toggle('open');
 		})
@@ -41,7 +45,7 @@ define(function () {
 	return {
 		version: '1.0.0',
 		name: 'dropdown',
-		selectors: ['.bs.dropdown', '.us.dropdown'],
+		selectors: ['.dropdown', '.dropup'],
 		extend: extend
 	}
-})
+});
