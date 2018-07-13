@@ -7,7 +7,7 @@ var config = {
 	],
 	components: [
 		'dropdown'
-	}
+	]
 }
 
 function joinFiles (file, list) {
