@@ -1,19 +1,21 @@
 /*
- * unstrap v1.1.0
+ * unstrap v1.1.1
  * https://unstrap.org
  * 2015-2020
  * MIT license
  */
-const version = '1.1.0',
+const version = '1.1.1',
     collection = {};
 
 function extendUnstrap (v) {
     var list;
+    if (!collection[v].selectors) {
+    	collection[v].selectors = ['.' + collection[v].name];
+    }
     collection[v].selectors.forEach(function (sel) {
     	list = document.querySelectorAll(sel);
-    	console.log(sel, list)
     	for (var i = 0; i < list.length; i++) {
-        	collection[v].extend(list.item(i));
+        	collection[v].extend && collection[v].extend(list.item(i));
     	}
 	})
 }
@@ -28,7 +30,7 @@ function init () {
                 if (c) {
                 	for (var j = 0; j < c.length; j++) {
                     	if (f = collection[c.item(j)]) {
-                        	f.extend(n.item(i));
+                        	f.extend && f.extend(n.item(i));
                     	}
                 	}
             	}
@@ -42,7 +44,9 @@ function init () {
 }
 
 function register (component) {
-    collection[component.name] = component;
+	if (component.name) {
+    	collection[component.name] = component;
+    }
 }
 
 function unregister (component) {
