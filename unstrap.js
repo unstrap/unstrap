@@ -1,118 +1,63 @@
 /*
- * Unstrap v1.0.0-1
- * http://unstrap.org/components/dropdown
- * 2015
+ * unstrap v1.1.0
+ * https://unstrap.org
+ * 2015-2020
  * MIT license
  */
-(function (global) {
+const version = '1.1.0',
+    collection = {};
 
+function extendUnstrap (v) {
+    var list;
+    collection[v].selectors.forEach(function (sel) {
+    	list = document.querySelectorAll(sel);
+    	console.log(sel, list)
+    	for (var i = 0; i < list.length; i++) {
+        	collection[v].extend(list.item(i));
+    	}
+	})
+}
 
-	var version = '1.0.0',
-	    collection = {};
+function init () {
+    var observer = new MutationObserver(function (mut) {
+        mut.forEach(function (m) {
+            var n = m.addedNodes,
+                f;
+            for (var i=0; i<n.length; i++) {
+                var c = n.item(i).classList;
+                if (c) {
+                	for (var j = 0; j < c.length; j++) {
+                    	if (f = collection[c.item(j)]) {
+                        	f.extend(n.item(i));
+                    	}
+                	}
+            	}
+            }
+        });
+    });
+    Object.keys(collection).forEach(function (v) {
+        extendUnstrap(v);
+    })
+    observer.observe(document.body, {childList: true, subtree: true});
+}
 
-	function onReady (func) {
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            doNext(func);
-        } else if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', func, false);
-        } else {
-            document.attachEvent('onreadystatechange', func);
-        }
-    }
+function register (component) {
+    collection[component.name] = component;
+}
 
-	function extendUnstrap (v) {
-	    var list;
-	    collection[v].selectors.forEach(function (sel) {
-	    	list = document.querySelectorAll(sel);
-	    	console.log(sel, list)
-	    	for (var i = 0; i < list.length; i++) {
-	        	collection[v].extend(list.item(i));
-	    	}
-		})
-	}
+function unregister (component) {
+    delete collection[component.name];
+}
 
-	onReady(function () {
-	    var observer = new MutationObserver(function (mut) {
-	        mut.forEach(function (m) {
-	            var n = m.addedNodes,
-	                f;
-	            for (var i=0; i<n.length; i++) {
-	                var c = n.item(i).classList;
-	                if (c) {
-	                	for (var j = 0; j < c.length; j++) {
-	                    	if (f = collection[c.item(j)]) {
-	                        	f.extend(n.item(i));
-	                    	}
-	                	}
-	            	}
-	            }
-	        });
-	    });
-	    Object.keys(collection).forEach(function (v) {
-	        extendUnstrap(v);
-	    })
-	    observer.observe(document.body, {childList: true, subtree: true});
-	});
+function list () {
+    return Object.keys(collection).sort();
+}
 
-	function define (a, b, c) {
-		if (typeof a === 'function') {
-			c = a;
-		}
+window.onload = init;
 
-		var m = c();
-		collection[m.name] = m;
-
-	}
-
-	// dropdown
-	define(function () {
-
-		function caret () {
-			var c = document.createElement('span');
-			c.classList.add('caret');
-			return c;
-		}
-
-		function extend (elem) {
-			var but = elem.querySelector('.dropdown-toggle');
-			if (!but) return;
-			Object.defineProperty(but, 'value', {
-				set: function (val) {
-					var v, li = this.nextElementSibling.querySelectorAll('li');
-					for (var i = 0; i < li.length; i++) {
-						v = li.item(i).getAttribute('data-value') || li.item(i).textContent;
-						if (val === v) {
-							but._value = val;
-							but.textContent = li.textContent || val;
-							but.appendChild(caret());
-						}
-					}
-				},
-				get: function () {
-					 return but._value;
-				}
-			});
-			but.nextElementSibling.addEventListener('click', function (evt) {
-				but.value = evt.target.getAttribute('data-value') || evt.target.textContent;
-				evt.target.parentNode.parentNode.parentNode.classList.remove('open');
-			})
-			but.addEventListener('click', function (evt) {
-				var dd = evt.target.parentNode;
-				dd.classList.toggle('open');
-			})
-			return elem;
-		}
-
-		return {
-			version: '1.0.0',
-			name: 'dropdown',
-			selectors: ['.dropdown', '.dropup'],
-			extend: extend
-		}
-	});
-
-	return {
-		version: version
-	}
-
-}(window))
+export default {
+	version,
+	register,
+    unregister,
+    list
+}
