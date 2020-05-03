@@ -1,10 +1,10 @@
 /*
- * unstrap v1.1.2
+ * unstrap v1.1.3
  * https://unstrap.org
  * 2015-2020
  * MIT license
  */
-const version = '1.1.2',
+const version = '1.1.3',
     collection = {};
 
 function extendUnstrap (v) {
@@ -43,14 +43,18 @@ function init () {
     observer.observe(document.body, {childList: true, subtree: true});
 }
 
-function register (component) {
-	if (component.name) {
-    	collection[component.name] = component;
-    }
+function register (...components) {
+	components.forEach((component) => {
+		if (component.name) {
+	    	collection[component.name] = component;
+	    }
+	})
 }
 
-function unregister (component) {
-    delete collection[component.name];
+function unregister (...components) {
+	components.forEach((component) => {
+    	delete collection[component.name];
+    })
 }
 
 function list () {
