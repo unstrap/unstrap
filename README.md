@@ -166,3 +166,32 @@ unstrap.register(aVariantBox);
 
 export default aVariantBox;
 ```
+
+## How to begin
+
+You need Nodejs istalled, then from the prompt in an empty folder run these commands:
+
+```sh
+npx tripledollar --init
+npm install
+npm install @unstrap/unstrap --save
+npm run build
+```
+
+Make your own component and change "main.js" to include it, similar to this:
+
+```js
+import $$$ from "tripledollar";
+import './main.css';
+import cb from './count-box.js';
+
+$$$.appendToDoc(['div.center',
+	['h1.tripledollar', 'Count-Box Demo'],
+	['p.version', 'Version ', $$$.version],
+	['count-box'],
+	['count-box', {color: 'red'}],
+	cb.render({onclick: () => {console.log('svejsan')}, color: 'green'})
+]);
+```
+
+
