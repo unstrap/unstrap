@@ -1,10 +1,10 @@
 /*
- * unstrap v1.1.1
+ * unstrap v1.1.2
  * https://unstrap.org
  * 2015-2020
  * MIT license
  */
-const version = '1.1.1',
+const version = '1.1.2',
     collection = {};
 
 function extendUnstrap (v) {

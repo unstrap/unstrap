@@ -34,7 +34,7 @@ The render function is made for creating the component by JavaScript. It has to 
 Here is a silly example of a component to show the different parts. I places a text on the page that looks like this: "Counted to 1". It has a counter that will automatically increase the number. The text color can be changed and it is possible to make it clickable. Totally meaningless, but good for illustration. This is the JavaScript code:
 
 ```js
-import unstrap from "unstrap";
+import unstrap from "@unstrap/unstrap";
 import "./count-box.css";
 
 function counter () {
@@ -144,7 +144,7 @@ To alter the "count-box" above without changing it's code, we can create our own
 
 ```js
 import $$$ from "tripledollar";
-import unstrap from "unstrap";
+import unstrap from "@unstrap/unstrap";
 import countBox from "./count-box.js";
 
 function render () {
